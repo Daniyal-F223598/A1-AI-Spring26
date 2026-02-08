@@ -34,19 +34,6 @@ class Problem:
         else:
             return state == self.goal
 
-    def path_cost(self, c, state1, action, state2):
-        """Return the cost of a solution path that arrives at state2 from
-        state1 via action, assuming cost c to get up to state1. If the problem
-        is such that the path doesn't matter, this function will only look at
-        state2. If the path does matter, it will consider c and maybe state1
-        and action. The default method costs 1 for every step in the path."""
-        return c + 1
-
-    def value(self, state):
-        """For optimization problems, each state has a value. Hill Climbing
-        and related algorithms try to maximize this value."""
-        raise NotImplementedError
-
 class EightPuzzle(Problem):
     """ The problem of sliding tiles numbered from 1 to 8 on a 3x3 board, where one of the
     squares is a blank. A state is represented as a tuple of length 9, where  element at
@@ -109,9 +96,3 @@ class EightPuzzle(Problem):
                     inversion += 1
 
         return inversion % 2 == 0
-
-    def h(self, node):
-        """ Return the heuristic value for a given state. Default heuristic function used is 
-        h(n) = number of misplaced tiles """
-
-        return sum(s != g for (s, g) in zip(node.state, self.goal))
